@@ -1,7 +1,9 @@
-CREATE DATABASE kiotbk;
-USE kiotbk;
+-- DROP DATABASE kiotbk;
 
-CREATE TABLE User(
+create database kiotbk;
+use kiotbk;
+
+CREATE TABLE IF NOT EXISTS User(
 	ID                  CHAR(6) primary key,
     FullName            VARCHAR(50),
     Sex					char(1) check(Sex in ('M', 'F')),
@@ -10,55 +12,57 @@ CREATE TABLE User(
     Pass                VARCHAR(50) NOT NULL,
     refreshToken        VARCHAR(256)
 );
-CREATE TABLE Admin(
+CREATE TABLE IF NOT EXISTS Admin(
 	AID              	CHAR(6) primary key,
     FOREIGN KEY (AID) REFERENCES User (ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
-CREATE TABLE Seller(
+CREATE TABLE IF NOT EXISTS Seller(
 	SID              	CHAR(6) primary key,
     FOREIGN KEY (SID) REFERENCES User (ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
-CREATE TABLE Customer(
+CREATE TABLE IF NOT EXISTS Customer(
 	ID                  CHAR(6) primary key,
     FullName            VARCHAR(50),
     Sex					char(1) check(Sex in ('M', 'F')),
     BDate				DATE
 );
-CREATE TABLE Product(
+CREATE TABLE IF NOT EXISTS Product(
 	ID					CHAR(6) primary key,
     FullName			VARCHAR(50),
-    TonKho				INT check(TonKho >= 0),
-    GiaNhap				INT check(GiaNhap >= 0),
-    GiaBan				INT check(GiaBan >= 0)
+    TonKho				INT,
+    GiaNhap				INT,
+    GiaBan				INT
 );
-CREATE TABLE Invoice(
+CREATE TABLE IF NOT EXISTS Invoice(
 	ID					CHAR(6) primary key,
     SID                 CHAR(6) not null,
     CID                 CHAR(6),
     NgayBan				DATE,
-    Total				INT check(Total >= 0),
+    Total				INT,
     FOREIGN KEY (SID) REFERENCES Seller (SID) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (CID) REFERENCES Customer (ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
-CREATE TABLE IP(
+CREATE TABLE IF NOT EXISTS IP(
     IID                 CHAR(6),
     PID                 CHAR(6),
-    CountNumber			INT check(CountNumber >= 0),
+    CountNumber			INT,
+	GiaBan				INT,
     CONSTRAINT IP_pk PRIMARY KEY (IID, PID),
     FOREIGN KEY (IID) REFERENCES Invoice (ID) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (PID) REFERENCES Product (ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
-CREATE TABLE NhapHang(
+CREATE TABLE IF NOT EXISTS NhapHang(
 	ID					CHAR(6) primary key,
     AID                 CHAR(6) not null,
     NgayNhap			DATE,
     Total				INT check(Total >= 0),
     FOREIGN KEY (AID) REFERENCES Admin (AID) ON DELETE CASCADE ON UPDATE CASCADE
 );
-CREATE TABLE NP(
+CREATE TABLE IF NOT EXISTS NP(
     NID                 CHAR(6),
     PID                 CHAR(6),
-    CountNumber			INT check(CountNumber >= 0),
+    CountNumber			INT,
+    GiaNhap				INT,
     CONSTRAINT NP_pk PRIMARY KEY (NID, PID),
     FOREIGN KEY (NID) REFERENCES NhapHang (ID) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (PID) REFERENCES Product (ID) ON DELETE CASCADE ON UPDATE CASCADE
