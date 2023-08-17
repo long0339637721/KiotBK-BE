@@ -11,3 +11,10 @@
 ## How to run
   - npm start
   - Open: http://localhost:5000/
+
+# Note
+ - src/config: chứa các file cấu hình sever
+ - src/routes: định nghĩa các route
+ - src/models: chứa các model tương ứng với các bảng trong DB
+ - src/controllers: xử lý logic và truy vấn DB
+ - src/views: giao diện hiển thị cho người dùng
