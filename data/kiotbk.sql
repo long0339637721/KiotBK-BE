@@ -1,4 +1,4 @@
--- DROP DATABASE kiotbk;
+DROP DATABASE kiotbk;
 
 create database kiotbk;
 use kiotbk;
@@ -14,14 +14,15 @@ CREATE TABLE IF NOT EXISTS User(
 );
 CREATE TABLE IF NOT EXISTS Admin(
 	ID              	CHAR(6) primary key,
-    FOREIGN KEY (AID) REFERENCES User (ID) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (ID) REFERENCES User (ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE IF NOT EXISTS Seller(
 	ID              	CHAR(6) primary key,
-    FOREIGN KEY (SID) REFERENCES User (ID) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (ID) REFERENCES User (ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE IF NOT EXISTS Customer(
 	ID                  CHAR(6) primary key,
+    Sdt		            CHAR(10) unique,
     FullName            VARCHAR(50),
     Sex					char(1) check(Sex in ('M', 'F')),
     BDate				DATE

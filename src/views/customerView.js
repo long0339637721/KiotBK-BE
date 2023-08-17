@@ -1,11 +1,11 @@
-class UserView {
-    getAll(res, status, users) {
-        if (users) {
+class CustomerView {
+    getAll(res, status, customers) {
+        if (status === 200) {
             res.status(status).json({
                 result: 'Success',
-                message: 'Get all users',
-                size: users.length,
-                users: users
+                message: 'Get all customers',
+                size: customers.length,
+                customers: customers
             })
         }
         else {
@@ -16,12 +16,12 @@ class UserView {
         }
     }
 
-    get(res, status, user) {
+    get(res, status, customer) {
         if (status === 200) {
             res.status(status).json({
                 result: 'Success',
-                message: 'Get user by ID',
-                user: user
+                message: 'Get customer by ID',
+                customer: customer
             })
         }
         else if (status === 404) {
@@ -33,7 +33,7 @@ class UserView {
         else {
             res.status(status).json({
                 result: 'Fail',
-                message: 'Something wrong happened, please try again',
+                message: 'Something wrong happened, please try again'
             })
         }
     }
@@ -48,7 +48,7 @@ class UserView {
         else {
             res.status(status).json({
                 result: 'Fail',
-                message: result
+                message: 'Something wrong happened, please try again'
             })
         }
     }
@@ -69,7 +69,7 @@ class UserView {
         else {
             res.status(status).json({
                 result: 'Fail',
-                message: 'Something wrong happened, please try again',
+                message: 'Something wrong happened, please try again'
             })
         }
     }
@@ -90,27 +90,32 @@ class UserView {
         else {
             res.status(status).json({
                 result: 'Fail',
-                message: 'Something wrong happened, please try again',
+                message: 'Something wrong happened, please try again'
             })
         }
     }
 
-    getByRole(res, status, users) {
+    getBySdt(res, status, customer) {
         if (status === 200) {
             res.status(status).json({
                 result: 'Success',
-                message: 'Get by role',
-                size: users.length,
-                users: users
+                message: 'Get customer by Sdt',
+                customer: customer
+            })
+        }
+        else if (status === 404) {
+            res.status(status).json({
+                result: 'Fail',
+                message: 'Sdt not exist, please check again'
             })
         }
         else {
             res.status(status).json({
                 result: 'Fail',
-                message: 'Something wrong happened, please try again',
+                message: 'Something wrong happened, please try again'
             })
         }
     }
 }
 
-module.exports = new UserView
+module.exports = new CustomerView

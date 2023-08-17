@@ -36,6 +36,13 @@ class UserController {
             userView.update(res, status, result)
         })
     }
+
+    getByRole(req, res) {
+        let role = req.params.role
+        userModel.getByRole(role, (status, result) => {
+            userView.getByRole(res, status, result)
+        })
+    }
 }
 
 module.exports = new UserController
