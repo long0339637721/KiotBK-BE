@@ -126,6 +126,19 @@ class User {
             })
         })
     }
+
+    static getByRole(role, callback) {
+        const query = `SELECT * FROM user u where u.ID in (select ID from ${role})`
+        db.query(query, role, (err, result) => {
+            if (err) {
+                console.error('Error fetching role ', role, ': ', err)
+                callback(400, null)
+                return
+            }
+            console.log(query, '\nSUCCESS!')
+            callback(200, result[0])
+        })
+    }
 }
 
 module.exports = User

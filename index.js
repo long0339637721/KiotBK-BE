@@ -8,7 +8,7 @@ const port = 5000
 app.use(express.json())
 
 app.get('/', (req, res) => {
-    res.json({ 'message': 'ok' });
+    res.json({ 'Message': 'OK' });
 })
 
 route(app)
