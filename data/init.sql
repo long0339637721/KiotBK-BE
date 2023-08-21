@@ -1,11 +1,11 @@
 use kiotbk;
 
 insert into user(ID, FullName, Sex, BDate, Username, Pass) values
-('US0001', 'Nguyen A', 'F', '2002-07-24', 'US0001', '0000'),
-('US0002', 'Nguyen B', 'M', '2002-07-24', 'US0002', '0000'),
-('US0003', 'Nguyen C', 'M', '2002-07-24', 'US0003', '0000'),
-('US0004', 'Nguyen D', 'M', '2002-07-24', 'US0004', '0000'),
-('US0005', 'Nguyen E', 'M', '2002-07-24', 'US0005', '0000');
+('US0001', 'Nguyen A', 'F', '2002-07-24', 'US0001', '$2b$10$T11Jj/9fMixmnDZE4WynAOq6mNtwQMFxsVoMi1FqYDBKlJ0gco2F6'),
+('US0002', 'Nguyen B', 'M', '2002-07-24', 'US0002', '$2b$10$lODA4hIMTSxkkygixmGTXe4cvFwDrJQvbZqtkeKDq900HOiUU0Y9i'),
+('US0003', 'Nguyen C', 'M', '2002-07-24', 'US0003', '$2b$10$wXgZC48.6quXxr1lQHSQUuh7qx1bX13DjLdNxG4ys1yHW9Ndkj9Gm'),
+('US0004', 'Nguyen D', 'M', '2002-07-24', 'US0004', '$2b$10$h7eMwhc4l9GntWSB0Z9DzOloce0BKxAm7CZa/Q8v3GZTF5VIMf9qO'),
+('US0005', 'Nguyen E', 'M', '2002-07-24', 'US0005', '$2b$10$BQ5KUFmYOh4NDO22ihy9MeLeQQLMgKCdaAUPvte0UV7S13bbyhoGe');
 
 insert into admin values
 ('US0001');

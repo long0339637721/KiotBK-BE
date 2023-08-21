@@ -8,8 +8,8 @@
     - Insert data: init.sql
   ### Create file .env that contains:
     - DB_HOST = localhost
-    - DB_USER = root
-    - DB_PASSWORD = (your password)
+    - DB_USER = (your mysql username)
+    - DB_PASSWORD = (your mysql password)
     - DB_DATABASE = KIOTBK
   ### Install node modules
     - npm i

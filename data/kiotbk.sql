@@ -9,8 +9,7 @@ CREATE TABLE IF NOT EXISTS User(
     Sex					char(1) check(Sex in ('M', 'F')),
     BDate				DATE,
     Username            VARCHAR(50) NOT NULL unique,
-    Pass                VARCHAR(50) NOT NULL,
-    refreshToken        VARCHAR(256)
+    Pass                VARCHAR(100) NOT NULL
 );
 CREATE TABLE IF NOT EXISTS Admin(
 	ID              	CHAR(6) primary key,

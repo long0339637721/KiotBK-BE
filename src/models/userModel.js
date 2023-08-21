@@ -1,4 +1,5 @@
 const db = require('../config/db.js')
+const bcrypt = require('bcrypt')
 
 class User {
     static getAll(callback) {
@@ -35,30 +36,36 @@ class User {
     static create(newUser, callback) {
         const query1 = `INSERT INTO USER SET ?`
         const query2 = `INSERT INTO ${newUser.role == "admin" ? "ADMIN" : "SELLER"} VALUES (?)`
-        const tempUser = {
-            ID: newUser.ID,
-            FullName: newUser.FullName,
-            Sex: newUser.Sex,
-            BDate: newUser.BDate,
-            Username: newUser.Username,
-            Pass: newUser.Pass,
-            refreshToken: null,
-        }
-        db.query(query1, tempUser, (err, result) => {
+        bcrypt.hash(newUser.Pass, Number(process.env.HASH_ROUNDS), (err, hash) => {
             if (err) {
-                console.error('Error create user: ', err)
+                console.log('Error hash: ', err)
                 callback(400, null)
                 return
             }
-            console.log(query1, tempUser, '\nSUCCESS!')
-            db.query(query2, newUser.ID, (err, result) => {
+            const tempUser = {
+                ID: newUser.ID,
+                FullName: newUser.FullName,
+                Sex: newUser.Sex,
+                BDate: newUser.BDate,
+                Username: newUser.Username,
+                Pass: hash
+            }
+            db.query(query1, tempUser, (err, result) => {
                 if (err) {
-                    console.error('Error add', newUser.role, err)
+                    console.error('Error create user: ', err)
                     callback(400, null)
                     return
                 }
-                console.log(query2, newUser.ID, '\nSUCCESS!')
-                callback(201, result)
+                console.log(query1, tempUser, '\nSUCCESS!')
+                db.query(query2, newUser.ID, (err, result) => {
+                    if (err) {
+                        console.error('Error add', newUser.role, err)
+                        callback(400, null)
+                        return
+                    }
+                    console.log(query2, newUser.ID, '\nSUCCESS!')
+                    callback(201, result)
+                })
             })
         })
     }
@@ -105,24 +112,30 @@ class User {
                 callback(404, null)
                 return
             }
-            let tempUser = {
-                ID: newUser.ID ? newUser.ID : result[0].ID,
-                FullName: newUser.FullName ? newUser.FullName : result[0].FullName,
-                Sex: newUser.Sex ? newUser.Sex : result[0].Sex,
-                BDate: newUser.BDate ? newUser.BDate : result[0].BDate,
-                Username: newUser.Username ? newUser.Username : result[0].Username,
-                Pass: newUser.Pass ? newUser.Pass : result[0].Pass,
-                refreshToken: null,
-            }
-            db.query(query2, [tempUser, id], (err, result) => {
+            bcrypt.hash((newUser.Pass ? newUser.Pass : result[0].Pass), Number(process.env.HASH_ROUNDS), (err, hash) => {
                 if (err) {
-                    console.error('Error update user ', id, ': ', err)
+                    console.log('Error hash: ', err)
                     callback(400, null)
                     return
                 }
-                console.log(query2, id, tempUser, '\nUpdate success!')
-                callback(200, result)
-                return
+                let tempUser = {
+                    ID: newUser.ID ? newUser.ID : result[0].ID,
+                    FullName: newUser.FullName ? newUser.FullName : result[0].FullName,
+                    Sex: newUser.Sex ? newUser.Sex : result[0].Sex,
+                    BDate: newUser.BDate ? newUser.BDate : result[0].BDate,
+                    Username: newUser.Username ? newUser.Username : result[0].Username,
+                    Pass: hash
+                }
+                db.query(query2, [tempUser, id], (err, result) => {
+                    if (err) {
+                        console.error('Error update user ', id, ': ', err)
+                        callback(400, null)
+                        return
+                    }
+                    console.log(query2, id, tempUser, '\nUpdate success!')
+                    callback(200, result)
+                    return
+                })
             })
         })
     }
